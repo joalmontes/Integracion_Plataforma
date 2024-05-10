@@ -6,7 +6,7 @@ const AddButton = ({ onClick }) => {
         <Section>
             <Container>
                 <div className='is-pulled-right'> 
-                    <Button onClick={ onClick } color="primary" >Prestanos</Button>
+                    <Button onClick={ onClick } color="primary" >agregar producto</Button>
                 </div>
                 
             </Container>
