@@ -13,6 +13,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.7.5",
+    "styled-components": "^6.1.11",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -40,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "prop-types": "^15.8.1"
+    "prop-types": "^15.8.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.17.0"
   }
 }
