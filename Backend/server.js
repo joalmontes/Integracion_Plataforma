@@ -3,6 +3,10 @@ const app = require('./app')
 const connectDb = require('./db/mongodb')
 const { appConfig, dbConfig } = require(`./config`)
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 async function initApp(appConfig, dbConfig){
     try{
         await connectDb(dbConfig)
