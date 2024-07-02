@@ -20,15 +20,15 @@ async function addProduct(req, res) {
 
         const productStored = await product.save()
 
-        res.status(201).send({ productStored })
+        res.status(201).json({ productStored })
     } catch (e) {
-        res.status(500).send({ message: e.message })
+        res.status(500).json({ message: e.message })
     }
 }
 
 async function getProducts(req, res) {
     const products = await Product.find().lean().exec()
-    res.status(200).send({ products })
+    res.status(200).json({ products })
 }
 
 async function deleteProduct(req, res) {
@@ -38,14 +38,15 @@ async function deleteProduct(req, res) {
         const deletedProduct = await Product.findByIdAndDelete(productId);
 
         if (!deletedProduct) {
-            return res.status(404).send({ message: 'Producto no encontrado' });
+            return res.status(404).json({ message: 'Producto no encontrado' });
         }
 
-        res.status(200).send({ message: 'Producto eliminado correctamente', deletedProduct });
+        res.status(200).json({ message: 'Producto eliminado correctamente', deletedProduct });
     } catch (error) {
-        res.status(500).send({ message: 'Error al eliminar el producto', error });
+        res.status(500).json({ message: 'Error al eliminar el producto', error: error.message });  // Ajuste aquí
     }
 }
+
 
 
 
