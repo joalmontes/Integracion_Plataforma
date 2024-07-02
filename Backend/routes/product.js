@@ -1,7 +1,6 @@
 const express = require('express');
 const upload = require('../libs/storage');
-const { addProduct, getProducts, deleteProduct } = require('../controllers/productControllers');
-
+const { addProduct, getProducts, deleteProduct } = require('../controllers/productControllers')
 const router = express.Router();
 
 /**

@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "standard",
     "start-dev": "nodemon server.js",
-    "tests-integración": "jest ./tests/products.test.js",
+    "tests-integracion": "jest ./tests/products.test.js",
     "tests-unitario": "jest ./tests/productControllers.test.js",
     "test": "npm run tests-integración && npm run tests-unitario"
   },
