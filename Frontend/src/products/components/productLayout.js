@@ -49,7 +49,6 @@ const ProductLayout = () =>{
             }
             {
                 !isLoading && products.length>0 && (<ListProduct products={products} /> )
-                
             }
             <Modal show={isModalOpen} onClose={() => SetIsModalOpen(false) }>
                 <Modal.Content>

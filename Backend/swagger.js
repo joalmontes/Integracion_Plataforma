@@ -11,10 +11,10 @@ const doc = {
 };
 
 const outputFile = './swagger-output.json';
-const endpointsFiles = ['./app.js']; // Puedes agregar otros archivos de rutas aquí
+const endpointsFiles = ['./app.js']; 
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
-    require('./server'); // Tu archivo de inicio del servidor
+    require('./server'); 
 });
 
 // URL para ejecutar Swagger:

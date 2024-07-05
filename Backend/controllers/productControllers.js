@@ -46,9 +46,42 @@ async function deleteProduct(req, res) {
         res.status(500).json({ message: 'Error al eliminar el producto', error: error.message });  // Ajuste aquí
     }
 }
+async function updateProduct(req, res) {
+    const productId = req.params.id;
+    const {
+        nombre_producto,
+        precio,
+        cantidad,
+        local,
+        fecha_envio,
+    } = req.body;
+
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            productId,
+            {
+                nombre_producto,
+                precio,
+                cantidad,
+                local,
+                fecha_envio,
+            },
+            { new: true } 
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+
+        res.status(200).json({ message: 'Producto actualizado correctamente', updatedProduct });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al actualizar el producto', error: error.message });
+    }
+}
 
 module.exports = {
     addProduct,
     getProducts,
     deleteProduct,
+    updateProduct,
 }

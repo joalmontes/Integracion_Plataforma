@@ -36,6 +36,19 @@ export async function deleteProduct(_id){
         console.log(error)
     }
 }
+export async function updateProduct(_id, productData) {
+    try {
+        const response = await axios({
+            url: `${baseUrl}/products/${_id}`,
+            method: 'put',
+            data: productData
+        });
+        return response.data; 
+    } catch (error) {
+        console.error('Error al actualizar el producto:', error);
+        throw error; 
+    }
+}
 
 export async function getProducts(){
     try {

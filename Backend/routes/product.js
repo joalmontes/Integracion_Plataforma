@@ -1,6 +1,6 @@
 const express = require('express');
 const upload = require('../libs/storage');
-const { addProduct, getProducts, deleteProduct } = require('../controllers/productControllers')
+const { addProduct, getProducts, deleteProduct, updateProduct } = require('../controllers/productControllers')
 const router = express.Router();
 
 /**
@@ -41,7 +41,43 @@ router.post('/products', upload.single('image'), addProduct);
  *         description: Deleted
  */
 router.delete('/products/:id', deleteProduct);
-
+/**
+ * @swagger
+ * /v1/products/{id}:
+ *   put:
+ *     summary: Update a product by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         type: string
+ *         description: The product ID
+ *       - in: formData
+ *         name: nombre_producto
+ *         type: string
+ *         description: The name of the product
+ *       - in: formData
+ *         name: precio
+ *         type: number
+ *         description: The price of the product
+ *       - in: formData
+ *         name: cantidad
+ *         type: integer
+ *         description: The quantity of the product
+ *       - in: formData
+ *         name: local
+ *         type: string
+ *         description: The location of the product
+ *       - in: formData
+ *         name: fecha_envio
+ *         type: string
+ *         format: date
+ *         description: The shipping date of the product
+ *     responses:
+ *       200:
+ *         description: Updated
+ */
+router.put('/products/:id', updateProduct);
 /**
  * @swagger
  * /v1/products:
