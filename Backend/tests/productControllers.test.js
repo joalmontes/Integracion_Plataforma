@@ -1,4 +1,4 @@
-const { addProduct, getProducts, deleteProduct } = require('../controllers/productControllers');
+const { addProduct, getProducts, deleteProduct, updateProduct } = require('../controllers/productControllers');
 const Product = require('../models/Product');
 const httpMocks = require('node-mocks-http');
 
@@ -99,6 +99,71 @@ describe('Product Controllers', () => {
 
       expect(res.statusCode).toBe(500);
       expect(res._getJSONData()).toEqual({ message: 'Error al eliminar el producto', error: 'Error' });
+    });
+  });
+  describe('updateProduct', () => {
+    it('debería actualizar un producto y devolver el código de estado 200', async () => {
+      const productId = '1';
+      req.params.id = productId;
+      req.body = {
+        nombre_producto: 'Producto Actualizado',
+        precio: 150,
+        cantidad: 20,
+        local: 'Local Actualizado',
+        fecha_envio: '2024-08-01',
+      };
+
+      const updatedProductMock = { 
+        _id: productId, 
+        ...req.body 
+      };
+      Product.findByIdAndUpdate = jest.fn().mockResolvedValue(updatedProductMock);
+
+      await updateProduct(req, res, next);
+
+      expect(res.statusCode).toBe(200);
+      expect(res._getJSONData()).toEqual({ 
+        message: 'Producto actualizado correctamente', 
+        updatedProduct: updatedProductMock 
+      });
+    });
+
+    it('debería devolver 404 si no se encuentra el producto', async () => {
+      const productId = '1';
+      req.params.id = productId;
+      req.body = {
+        nombre_producto: 'Producto Actualizado',
+        precio: 150,
+        cantidad: 20,
+        local: 'Local Actualizado',
+        fecha_envio: '2024-08-01',
+      };
+
+      Product.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
+
+      await updateProduct(req, res, next);
+
+      expect(res.statusCode).toBe(404);
+      expect(res._getJSONData()).toEqual({ message: 'Producto no encontrado' });
+    });
+
+    it('debería devolver 500 si hay un error', async () => {
+      const productId = '1';
+      req.params.id = productId;
+      req.body = {
+        nombre_producto: 'Producto Actualizado',
+        precio: 150,
+        cantidad: 20,
+        local: 'Local Actualizado',
+        fecha_envio: '2024-08-01',
+      };
+
+      Product.findByIdAndUpdate = jest.fn().mockRejectedValue(new Error('Error'));
+
+      await updateProduct(req, res, next);
+
+      expect(res.statusCode).toBe(500);
+      expect(res._getJSONData()).toEqual({ message: 'Error al actualizar el producto', error: 'Error' });
     });
   });
 });

@@ -1,4 +1,3 @@
-
 const request = require('supertest');
 const express = require('express');
 const router = require('../routes/product');
@@ -115,4 +114,65 @@ describe('Rutas de Productos', () => {
       expect(res.body).toEqual({ message: 'Error al eliminar el producto', error: 'Error' });
     });
   });
+  describe('PUT /v1/products/:id', () => {
+    it('debería actualizar un producto por id', async () => {
+      const productId = '1';
+      const updatedProductMock = {
+        _id: productId,
+        nombre_producto: 'Producto Actualizado',
+        precio: 150,
+        cantidad: 20,
+        local: 'Local Actualizado',
+        fecha_envio: '2024-08-01',
+      };
+      Product.findByIdAndUpdate.mockResolvedValue(updatedProductMock);
+
+      const res = await request(app)
+        .put(`/v1/products/${productId}`)
+        .field('nombre_producto', 'Producto Actualizado')
+        .field('precio', 150)
+        .field('cantidad', 20)
+        .field('local', 'Local Actualizado')
+        .field('fecha_envio', '2024-08-01');
+
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({ 
+        message: 'Producto actualizado correctamente', 
+        updatedProduct: updatedProductMock 
+      });
+    });
+
+    it('debería retornar 404 si el producto no se encuentra', async () => {
+      const productId = '1';
+      Product.findByIdAndUpdate.mockResolvedValue(null);
+
+      const res = await request(app)
+        .put(`/v1/products/${productId}`)
+        .field('nombre_producto', 'Producto Actualizado')
+        .field('precio', 150)
+        .field('cantidad', 20)
+        .field('local', 'Local Actualizado')
+        .field('fecha_envio', '2024-08-01');
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ message: 'Producto no encontrado' });
+    });
+
+    it('debería retornar 500 si hay un error', async () => {
+      const productId = '1';
+      Product.findByIdAndUpdate.mockRejectedValue(new Error('Error'));
+
+      const res = await request(app)
+        .put(`/v1/products/${productId}`)
+        .field('nombre_producto', 'Producto Actualizado')
+        .field('precio', 150)
+        .field('cantidad', 20)
+        .field('local', 'Local Actualizado')
+        .field('fecha_envio', '2024-08-01');
+
+      expect(res.status).toBe(500);
+      expect(res.body).toEqual({ message: 'Error al actualizar el producto', error: 'Error' });
+    });
+  });
 });
+
