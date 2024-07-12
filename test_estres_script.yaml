@@ -1,0 +1,19 @@
+config:
+  target: 'http://localhost:3000' # URL de la aplicación que estás probando
+  phases:
+    - duration: 60  # Duración de la prueba en segundos
+      arrivalRate: 10  # Número de usuarios concurrentes por segundo
+  defaults:
+    headers:
+      content-type: 'application/json'  # Tipo de contenido para las solicitudes
+scenarios:
+  - flow:
+    - post:
+        url: "/api/products"
+        json:
+          name: "Producto de prueba"
+          description: "Descripción del producto de prueba"
+          price: 9.99
+          category: "Categoría"
+    - get:
+        url: "/api/products"
